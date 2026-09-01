@@ -1,0 +1,16 @@
+[
+    {
+        "job_id": "8",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "Freelance disputes often happen because a client pays upfront with no guarantee of quality, or a freelancer delivers work with no guarantee of getting paid. A smart contract solves this by acting as a neutral vault: the client's funds sit inside the contract itself, not in either person's control, until predefined conditions are met. Once the freelancer delivers their work, an automated check evaluates whether it satisfies those conditions, and the contract releases the funds on its own if it does. Neither the client nor the freelancer can unilaterally seize the money, and if the automated check fails, the funds simply remain locked rather than favoring one side. This removes the need for either party to trust a platform, a bank, or each other directly.",
+        "cid": "",
+        "timestamp": "2026-08-26T11:56:27.423018"
+    },
+    {
+        "job_id": "9",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "Freelance disputes often happen because a client pays upfront with no guarantee of quality, or a freelancer delivers work with no guarantee of getting paid. A smart contract solves this by acting as a neutral vault: the client's funds sit inside the contract itself, not in either person's control, until predefined conditions are met. Once the freelancer delivers their work, an automated check evaluates whether it satisfies those conditions, and the contract releases the funds on its own if it does. Neither the client nor the freelancer can unilaterally seize the money, and if the automated check fails, the funds simply remain locked rather than favoring one side. This removes the need for either party to trust a platform, a bank, or each other directly.",
+        "cid": "",
+        "timestamp": "2026-08-26T11:57:04.202189"
+    }
+]

@@ -1,0 +1,40 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# IDE
+.vscode/
+.idea/
+
+# Node
+node_modules/
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary downloads
+backend/downloads/
+
+# Local oracle state
+backend/oracle/*.json
+
+# AI temporary/history files (if they contain local paths/test data)
+backend/ai/*_submissions_store.json
+
+# Streamlit
+.streamlit/secrets.toml

@@ -1,0 +1,114 @@
+[
+    {
+        "job_id": "JOB001",
+        "freelancer": "Suresh",
+        "text": "\n    Artificial Intelligence is transforming healthcare by assisting doctors\n    in diagnosis, treatment planning, medical imaging, and patient care.\n    ",
+        "cid": "",
+        "timestamp": "2026-07-23T19:53:54.164703"
+    },
+    {
+        "job_id": "JOB001",
+        "freelancer": "Suresh",
+        "text": "Artificial Intelligence is a branch of Computer Science.",
+        "cid": "",
+        "timestamp": "2026-07-26T10:25:49.455758"
+    },
+    {
+        "job_id": "4",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "Trustlance IPFS integration test work.",
+        "cid": "",
+        "timestamp": "2026-08-26T06:41:57.050017"
+    },
+    {
+        "job_id": "5",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "Trustlance IPFS integration test work.",
+        "cid": "",
+        "timestamp": "2026-08-26T06:52:20.284278"
+    },
+    {
+        "job_id": "6",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "Trustlance IPFS integration test work.",
+        "cid": "",
+        "timestamp": "2026-08-26T07:14:48.679799"
+    },
+    {
+        "job_id": "6",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "Blockchain-based escrow protects both clients and freelancers by holding payment in a smart contract instead of a company or bank account. When a client posts a job, their payment is locked immediately, so the freelancer knows funds genuinely exist before starting work. Once the freelancer submits their completed work, an automated compliance check evaluates it, and the smart contract releases payment automatically if the work meets the agreed standard. If a dispute arises, the funds remain safely locked rather than being controlled by either party alone, and both sides can review the same verifiable evidence. This removes the need to trust a centralized platform, reduces payment delays, and ensures freelancers are paid fairly for work that genuinely meets the client's requirements.",
+        "cid": "",
+        "timestamp": "2026-08-26T07:16:34.026769"
+    },
+    {
+        "job_id": "6",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "Blockchain-based escrow protects both clients and freelancers by holding payment in a smart contract instead of a company or bank account. When a client posts a job, their payment is locked immediately, so the freelancer knows funds genuinely exist before starting work. Once the freelancer submits their completed work, an automated compliance check evaluates it, and the smart contract releases payment automatically if the work meets the agreed standard. If a dispute arises, the funds remain safely locked rather than being controlled by either party alone, and both sides can review the same verifiable evidence. This removes the need to trust a centralized platform, reduces payment delays, and ensures freelancers are paid fairly for work that genuinely meets the client's requirements.",
+        "cid": "",
+        "timestamp": "2026-08-26T07:20:22.954562"
+    },
+    {
+        "job_id": "7",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "Blockchain-based escrow protects both clients and freelancers by holding payment in a smart contract instead of a company or bank account. When a client posts a job, their payment is locked immediately, so the freelancer knows funds genuinely exist before starting work. Once the freelancer submits their completed work, an automated compliance check evaluates it, and the smart contract releases payment automatically if the work meets the agreed standard. If a dispute arises, the funds remain safely locked rather than being controlled by either party alone, and both sides can review the same verifiable evidence. This removes the need to trust a centralized platform, reduces payment delays, and ensures freelancers are paid fairly for work that genuinely meets the client's requirements.",
+        "cid": "",
+        "timestamp": "2026-08-26T07:20:53.395599"
+    },
+    {
+        "job_id": "8",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "Blockchain-based escrow protects both clients and freelancers by holding payment in a smart contract instead of a company or bank account. When a client posts a job, their payment is locked immediately, so the freelancer knows funds genuinely exist before starting work. Once the freelancer submits their completed work, an automated compliance check evaluates it, and the smart contract releases payment automatically if the work meets the agreed standard. If a dispute arises, the funds remain safely locked rather than being controlled by either party alone, and both sides can review the same verifiable evidence. This removes the need to trust a centralized platform, reduces payment delays, and ensures freelancers are paid fairly for work that genuinely meets the client's requirements.",
+        "cid": "",
+        "timestamp": "2026-08-26T07:27:38.053902"
+    },
+    {
+        "job_id": "8",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "A blockchain escrow system removes the need for a trusted third party by holding a client's payment inside a smart contract until agreed conditions are satisfied. When work is submitted, the contract can automatically verify completion criteria and release funds without requiring manual approval from either side. This structure benefits freelancers because payment is guaranteed to exist before work begins, and it benefits clients because funds are only released once the delivered work meets the required standard. In cases of disagreement, the payment stays locked rather than defaulting to either party, giving both sides a fair opportunity to resolve the dispute using shared, verifiable evidence stored on the platform.",
+        "cid": "",
+        "timestamp": "2026-08-26T07:42:01.789958"
+    },
+    {
+        "job_id": "9",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "Freelance disputes often happen because a client pays upfront with no guarantee of quality, or a freelancer delivers work with no guarantee of getting paid. A smart contract solves this by acting as a neutral vault: the client's funds sit inside the contract itself, not in either person's control, until predefined conditions are met. Once the freelancer delivers their work, an automated check evaluates whether it satisfies those conditions, and the contract releases the funds on its own if it does. Neither the client nor the freelancer can unilaterally seize the money, and if the automated check fails, the funds simply remain locked rather than favoring one side. This removes the need for either party to trust a platform, a bank, or each other directly.",
+        "cid": "",
+        "timestamp": "2026-08-26T12:14:23.636446"
+    },
+    {
+        "job_id": "10",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "Freelance disputes often happen because a client pays upfront with no guarantee of quality, or a freelancer delivers work with no guarantee of getting paid. A smart contract solves this by acting as a neutral vault: the client's funds sit inside the contract itself, not in either person's control, until predefined conditions are met. Once the freelancer delivers their work, an automated check evaluates whether it satisfies those conditions, and the contract releases the funds on its own if it does. Neither the client nor the freelancer can unilaterally seize the money, and if the automated check fails, the funds simply remain locked rather than favoring one side. This removes the need for either party to trust a platform, a bank, or each other directly.",
+        "cid": "",
+        "timestamp": "2026-08-26T12:14:59.910271"
+    },
+    {
+        "job_id": "10",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "When a client hires a freelancer, both sides face risk. The client worries about paying for work that never arrives, while the freelancer worries about finishing a job and never receiving payment. Escrow removes this problem by holding the payment in a smart contract instead of either person's pocket. The money is locked the moment the job is created, so the freelancer can see proof that funds genuinely exist before they start. Once work is delivered, an automatic check decides whether the payment should be released. If everything checks out, the freelancer gets paid instantly with no manager or company needing to approve it by hand. If something looks wrong, the money stays locked and both people can look at the same evidence to settle it fairly.",
+        "cid": "",
+        "timestamp": "2026-08-26T12:21:05.901476"
+    },
+    {
+        "job_id": "11",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "When a client hires a freelancer, both sides face risk. The client worries about paying for work that never arrives, while the freelancer worries about finishing a job and never receiving payment. Escrow removes this problem by holding the payment in a smart contract instead of either person's pocket. The money is locked the moment the job is created, so the freelancer can see proof that funds genuinely exist before they start. Once work is delivered, an automatic check decides whether the payment should be released. If everything checks out, the freelancer gets paid instantly with no manager or company needing to approve it by hand. If something looks wrong, the money stays locked and both people can look at the same evidence to settle it fairly.",
+        "cid": "",
+        "timestamp": "2026-08-26T12:21:32.224511"
+    },
+    {
+        "job_id": "14",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "Blockchain-based escrow is a system that protects both clients and freelancers during a payment dispute. When a client hires a freelancer, escrow holds the payment safely so neither the client nor the freelancer can access it until agreed conditions are met. This protects clients from paying for work that is never delivered, and protects freelancers from finishing a job and never receiving payment. If a dispute happens between the client and the freelancer, blockchain escrow keeps the payment locked and safe until the dispute is resolved fairly, rather than letting either the client or the freelancer take the money unfairly.",
+        "cid": "",
+        "timestamp": "2026-08-26T12:53:00.718264"
+    },
+    {
+        "job_id": "16",
+        "freelancer": "0xaEBe5A9fba82dd863628EdF77d0C49533C797466",
+        "text": "Blockchain based escrow protects both clients and freelancers during a payment dispute by holding the payment safely inside a smart contract. Neither the client nor the freelancer can access the money until the agreed work is verified. This protects clients from paying for incomplete or missing work, and protects freelancers from completing a job and never being paid. When a payment dispute arises, the escrow keeps the funds locked and safe rather than releasing them to either the client or the freelancer unfairly, giving both sides a fair chance to resolve the disagreement.",
+        "cid": "",
+        "timestamp": "2026-08-26T17:32:09.610792"
+    }
+]
