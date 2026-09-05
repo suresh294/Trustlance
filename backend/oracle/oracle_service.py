@@ -1,6 +1,8 @@
 ﻿import time
 import sys
 import json
+import os
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from web3 import Web3
@@ -55,6 +57,9 @@ MIN_BLOCK_RANGE = 1
 
 # Number of retries for a failed RPC request.
 MAX_QUERY_RETRIES = 3
+
+# Recover submissions that happened while the listener was offline.
+RECOVERY_SCAN_LIMIT = int(os.getenv("ORACLE_RECOVERY_SCAN_LIMIT", "100"))
 
 # Delay between RPC retries.
 QUERY_RETRY_DELAY = 2
@@ -400,6 +405,30 @@ def get_work_submitted_events(
                 batch_size * 2
             )
     return all_events
+
+
+def find_submitted_jobs(processed_jobs, failed_jobs):
+    """Find pending submissions missed by an offline event listener."""
+    candidate_ids = range(1, RECOVERY_SCAN_LIMIT + 1)
+
+    def get_submitted_job(job_id):
+        try:
+            details = get_job_details(job_id)
+            if (
+                details.get("status") == 2
+                and job_id not in processed_jobs
+                and job_id not in failed_jobs
+            ):
+                return job_id
+        except Exception:
+            pass
+        return None
+
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        return [
+            job_id for job_id in executor.map(get_submitted_job, candidate_ids)
+            if job_id is not None
+        ]
    
 # ============================================================
 # AUTOMATIC EVENT-BASED ORACLE SERVICE
@@ -458,14 +487,9 @@ def run_oracle_service():
     # --------------------------------------------------------
     
     else:
-        # Start from the current blockchain block on restart
-        # This avoids scanning a large number of old blocks.
-        last_processed_block = current_block
-        state["last_processed_block"] = last_processed_block
-        save_oracle_state(state)
-
+        # Resume from the saved block so submissions are not skipped on restart.
         print()
-        print("Restarting event listener from current block:")
+        print("Resuming event listener from saved block:")
         print(last_processed_block)
 
     # ========================================================
@@ -477,6 +501,17 @@ def run_oracle_service():
     print()
     print("Listening for WorkSubmitted events...")
     print()
+
+    missed_jobs = find_submitted_jobs(processed_jobs, failed_jobs)
+    if missed_jobs:
+        print(f"Recovering {len(missed_jobs)} missed submission(s): {missed_jobs}")
+        for job_id in missed_jobs:
+            process_job(
+                job_id=job_id,
+                processed_jobs=processed_jobs,
+                failed_jobs=failed_jobs,
+                state=state,
+            )
 
     # ========================================================
     # MAIN EVENT LOOP

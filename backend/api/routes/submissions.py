@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, UploadFile, File, Form
 from pathlib import Path
 import os
 import json
+import time
 
 from dotenv import load_dotenv
 from web3 import Web3
@@ -84,6 +85,33 @@ contract = w3.eth.contract(
 # ============================================================
 # SUBMIT WORK
 # ============================================================
+
+@router.post("/upload")
+async def upload_submission_file(file: UploadFile = File(...)):
+    """Upload evidence to IPFS without submitting it on-chain."""
+    try:
+        DOWNLOADS_DIR.mkdir(parents=True, exist_ok=True)
+        safe_filename = Path(file.filename or "submission").name
+        temp_file_path = DOWNLOADS_DIR / f"ipfs_{int(time.time() * 1000)}_{safe_filename}"
+
+        contents = await file.read()
+        with open(temp_file_path, "wb") as output_file:
+            output_file.write(contents)
+
+        ipfs_cid = upload_to_ipfs(temp_file_path)
+        if not ipfs_cid:
+            raise HTTPException(status_code=500, detail="IPFS upload failed")
+
+        return {
+            "success": True,
+            "ipfs_cid": ipfs_cid,
+            "ipfs_url": f"https://gateway.pinata.cloud/ipfs/{ipfs_cid}",
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        print("IPFS upload API error:", str(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/")
 async def submit_submission(

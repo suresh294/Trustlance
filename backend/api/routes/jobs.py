@@ -1,9 +1,10 @@
 import os
 import json
 import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from fastapi import APIRouter, HTTPException, Form
+from fastapi import APIRouter, HTTPException, Form, Query
 from dotenv import load_dotenv
 from web3 import Web3
 
@@ -133,7 +134,10 @@ JOB_CACHE = {
 
 CACHE_DURATION = 30
 
-MAX_JOB_ID = 55
+MAX_JOB_ID = int(os.getenv("MAX_JOB_ID", "1000"))
+BASE_JOB_SCAN_LIMIT = int(os.getenv("BASE_JOB_SCAN_LIMIT", "100"))
+HIGH_JOB_SCAN_COUNT = int(os.getenv("HIGH_JOB_SCAN_COUNT", "5"))
+JOB_SCAN_WORKERS = int(os.getenv("JOB_SCAN_WORKERS", "10"))
 
 
 # ============================================================
@@ -205,6 +209,16 @@ def format_job(job):
         "status": int(job[9])
 
     }
+
+
+def load_job(job_id):
+    try:
+        formatted_job = format_job(contract.functions.getJob(job_id).call())
+        if formatted_job["client"] != "0x0000000000000000000000000000000000000000":
+            return formatted_job
+    except Exception as e:
+        print(f"Skipping job {job_id}: {e}")
+    return None
 
 
 # ============================================================
@@ -286,7 +300,6 @@ def create_job(
             existing_client
             != "0x0000000000000000000000000000000000000000"
         ):
-
             raise HTTPException(
                 status_code=400,
                 detail=(
@@ -712,7 +725,7 @@ def assign_freelancer(
 # ============================================================
 
 @router.get("/")
-def get_jobs():
+def get_jobs(refresh: bool = Query(False)):
 
     try:
 
@@ -724,6 +737,8 @@ def get_jobs():
         # ----------------------------------------------------
 
         if (
+            not refresh
+            and
 
             JOB_CACHE["jobs"]
 
@@ -758,53 +773,15 @@ def get_jobs():
         # FETCH JOBS FROM BLOCKCHAIN
         # ----------------------------------------------------
 
-        print(
-            f"Fetching jobs 1 to {MAX_JOB_ID} "
-            "from blockchain..."
-        )
+        scan_ids = set(range(1, min(BASE_JOB_SCAN_LIMIT, MAX_JOB_ID) + 1))
+        scan_ids.update(range(max(1, MAX_JOB_ID - HIGH_JOB_SCAN_COUNT + 1), MAX_JOB_ID + 1))
+        print(f"Fetching {len(scan_ids)} job IDs from blockchain...")
 
-
-        jobs = []
-
-
-        for job_id in range(
-            1,
-            MAX_JOB_ID + 1
-        ):
-
-            try:
-
-                job = contract.functions.getJob(
-                    job_id
-                ).call()
-
-
-                formatted_job = format_job(job)
-
-
-                if (
-
-                    formatted_job["client"]
-
-                    !=
-
-                    "0x0000000000000000000000000000000000000000"
-
-                ):
-
-                    jobs.append(
-                        formatted_job
-                    )
-
-
-            except Exception as e:
-
-                print(
-                    f"Skipping job {job_id}: {e}"
-                )
-
-
-                continue
+        # RPC calls are independent, so fetch them concurrently instead of
+        # waiting for every empty job ID to complete before starting the next.
+        with ThreadPoolExecutor(max_workers=JOB_SCAN_WORKERS) as executor:
+            scanned_jobs = executor.map(load_job, sorted(scan_ids))
+            jobs = [job for job in scanned_jobs if job is not None]
 
 
         # ----------------------------------------------------
