@@ -2,6 +2,7 @@
 import sys
 import json
 import os
+import socket
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -60,6 +61,8 @@ MAX_QUERY_RETRIES = 3
 
 # Recover submissions that happened while the listener was offline.
 RECOVERY_SCAN_LIMIT = int(os.getenv("ORACLE_RECOVERY_SCAN_LIMIT", "100"))
+RECOVERY_INTERVAL = int(os.getenv("ORACLE_RECOVERY_INTERVAL", "30"))
+ORACLE_LOCK_PORT = int(os.getenv("ORACLE_LOCK_PORT", "47821"))
 
 # Delay between RPC retries.
 QUERY_RETRY_DELAY = 2
@@ -424,7 +427,7 @@ def find_submitted_jobs(processed_jobs, failed_jobs):
             pass
         return None
 
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    with ThreadPoolExecutor(max_workers=3) as executor:
         return [
             job_id for job_id in executor.map(get_submitted_job, candidate_ids)
             if job_id is not None
@@ -434,7 +437,26 @@ def find_submitted_jobs(processed_jobs, failed_jobs):
 # AUTOMATIC EVENT-BASED ORACLE SERVICE
 # ============================================================
 
+def acquire_oracle_lock():
+    lock_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        lock_socket.bind(("127.0.0.1", ORACLE_LOCK_PORT))
+        lock_socket.listen(1)
+    except OSError:
+        lock_socket.close()
+        raise RuntimeError(
+            "Another oracle service is already running. "
+            "Stop it before starting a second instance."
+        )
+    return lock_socket
+
 def run_oracle_service():
+    try:
+        oracle_lock = acquire_oracle_lock()
+    except RuntimeError as e:
+        print(e)
+        return
+
     # --------------------------------------------------------
     # LOAD PERSISTENT STATE
     # --------------------------------------------------------
@@ -513,6 +535,17 @@ def run_oracle_service():
                 state=state,
             )
 
+    # Recovery above handles jobs currently stuck in Submitted status. Start
+    # live event polling from the current head instead of replaying a huge
+    # historical block range through a rate-limited public RPC.
+    last_processed_block = w3.eth.block_number
+    update_state(state, processed_jobs, failed_jobs, last_processed_block)
+    print()
+    print("Live event listener starting from current block:")
+    print(last_processed_block)
+
+    last_recovery_at = time.time()
+
     # ========================================================
     # MAIN EVENT LOOP
     # ========================================================
@@ -526,8 +559,27 @@ def run_oracle_service():
                 print("Blockchain connection lost.")
                 print("Reconnecting...")
                 w3, contract = get_contract()
+                # Do not replay a stale range after an RPC outage. The
+                # periodic recovery scan handles Submitted jobs missed while
+                # disconnected, while live events resume from the new head.
+                last_processed_block = w3.eth.block_number
+                update_state(state, processed_jobs, failed_jobs, last_processed_block)
+                print(f"Resuming live monitoring from block {last_processed_block}")
                 time.sleep(CHECK_INTERVAL)
                 continue
+
+            if time.time() - last_recovery_at >= RECOVERY_INTERVAL:
+                recovery_jobs = find_submitted_jobs(processed_jobs, failed_jobs)
+                if recovery_jobs:
+                    print(f"Recovering pending submission(s): {recovery_jobs}")
+                    for job_id in recovery_jobs:
+                        process_job(
+                            job_id=job_id,
+                            processed_jobs=processed_jobs,
+                            failed_jobs=failed_jobs,
+                            state=state,
+                        )
+                last_recovery_at = time.time()
 
             # ------------------------------------------------
             # GET LATEST BLOCK

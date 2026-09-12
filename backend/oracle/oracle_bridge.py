@@ -85,7 +85,12 @@ def get_web3():
     Connect to Polygon Amoy.
     """
 
-    w3 = Web3(Web3.HTTPProvider(RPC_URL))
+    w3 = Web3(
+        Web3.HTTPProvider(
+            RPC_URL,
+            request_kwargs={"timeout": 20},
+        )
+    )
 
     if not w3.is_connected():
         raise ConnectionError(

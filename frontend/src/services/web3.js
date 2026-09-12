@@ -1,4 +1,4 @@
-import { Contract, BrowserProvider, parseEther } from 'ethers';
+import { Contract, BrowserProvider, parseEther, parseUnits } from 'ethers';
 
 export const CHAIN_ID = 80002;
 export const CHAIN_HEX = '0x13882';
@@ -84,6 +84,22 @@ export async function getSigner(expectedAddress = '') {
 export async function getEscrowContract(expectedAddress = '') {
   const signer = await getSigner(expectedAddress);
   return new Contract(ESCROW_ADDRESS, ESCROW_ABI, signer);
+}
+
+export async function getTransactionOverrides() {
+  const provider = getProvider();
+  const feeData = await provider.getFeeData();
+  const minimumPriorityFee = parseUnits('25', 'gwei');
+  const suggestedPriorityFee = feeData.maxPriorityFeePerGas || 0n;
+  const maxPriorityFeePerGas = suggestedPriorityFee > minimumPriorityFee
+    ? suggestedPriorityFee
+    : minimumPriorityFee;
+  const suggestedMaxFee = feeData.maxFeePerGas || 0n;
+  const maxFeePerGas = suggestedMaxFee > maxPriorityFeePerGas * 2n
+    ? suggestedMaxFee
+    : maxPriorityFeePerGas * 2n;
+
+  return { maxPriorityFeePerGas, maxFeePerGas };
 }
 
 export function transactionUrl(hash) {

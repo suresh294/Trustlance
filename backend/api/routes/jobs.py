@@ -23,6 +23,7 @@ router = APIRouter()
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 BLOCKCHAIN_DIR = PROJECT_ROOT / "blockchain"
+ORACLE_STATE_PATH = PROJECT_ROOT / "backend" / "oracle" / "oracle_state.json"
 
 ENV_PATH = BLOCKCHAIN_DIR / ".env"
 
@@ -211,10 +212,20 @@ def format_job(job):
     }
 
 
+def is_oracle_failed(job_id):
+    try:
+        with open(ORACLE_STATE_PATH, "r", encoding="utf-8") as state_file:
+            state = json.load(state_file)
+        return int(job_id) in {int(value) for value in state.get("failed_jobs", [])}
+    except (FileNotFoundError, json.JSONDecodeError, TypeError, ValueError):
+        return False
+
+
 def load_job(job_id):
     try:
         formatted_job = format_job(contract.functions.getJob(job_id).call())
         if formatted_job["client"] != "0x0000000000000000000000000000000000000000":
+            formatted_job["oracle_failed"] = is_oracle_failed(job_id)
             return formatted_job
     except Exception as e:
         print(f"Skipping job {job_id}: {e}")
@@ -872,6 +883,8 @@ def get_job(job_id: int):
         formatted_job = format_job(
             job
         )
+
+        formatted_job["oracle_failed"] = is_oracle_failed(job_id)
 
 
         zero_address = (

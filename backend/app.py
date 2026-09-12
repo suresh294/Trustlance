@@ -18,7 +18,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Development only
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -46,6 +46,7 @@ app.include_router(
     prefix="/api/submissions",
     tags=["Submissions"]
 )
+
 
 # ============================================================
 # HEALTH CHECK
