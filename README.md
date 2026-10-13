@@ -1,8 +1,10 @@
-# Trustlance
+# Trustlance — AI-Verified Freelance Escrow Prototype
+
+[![CI](https://github.com/suresh294/Trustlance/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/suresh294/Trustlance/actions/workflows/ci.yml)
 
 Trustlance is an AI-verified decentralized freelance marketplace built around Polygon Amoy escrow, IPFS evidence, an off-chain AI oracle, and on-chain reputation.
 
-> **Deployment and safety status:** The configured contracts target Polygon Amoy (chain ID `80002`), a test network. Treat this as a prototype and use test tokens only; do not send real funds or production credentials. A verified public web-app deployment URL has not been confirmed, so the run instructions below are for local development.
+> **Deployment and safety status:** The contracts target Polygon Amoy (chain ID `80002`), a test network. Use test tokens only; do not send real funds or production credentials. A verified public web-app deployment URL has not been confirmed, so the run instructions below are for local development.
 
 ## Product Flow
 
@@ -45,7 +47,9 @@ smart_contract/ Solidity source references
 
 ## Requirements
 
-- Python 3.11+ recommended
+- Python 3.11 recommended
+- FFmpeg installed and available on `PATH` for audio transcription
+- A Node.js version compatible with the frontend and Hardhat package versions
 - Node.js 18+
 - MetaMask configured for Polygon Amoy
 - A funded Polygon Amoy wallet for the selected portal role
@@ -53,7 +57,13 @@ smart_contract/ Solidity source references
 
 ## Configuration
 
-Create or update `blockchain/.env` with local secrets. Do not commit this file:
+Copy `blockchain/.env.example` to `blockchain/.env`, then replace the placeholders with testnet-only credentials. Do not commit this file:
+
+```powershell
+Copy-Item blockchain/.env.example blockchain/.env
+```
+
+Then edit `blockchain/.env` with your local values. Example variable names:
 
 ```env
 RPC_URL=https://polygon-amoy.g.alchemy.com/v2/YOUR_ALCHEMY_KEY
