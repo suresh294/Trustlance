@@ -74,7 +74,7 @@ PINATA_API_SECRET=YOUR_PINATA_API_SECRET
 REPUTATION_NFT_ADDRESS=YOUR_REPUTATION_NFT_ADDRESS
 ```
 
-The browser never receives private keys. User-initiated client and freelancer transactions are signed by MetaMask.
+The browser never receives private keys. User-initiated client and freelancer transactions are signed by MetaMask. The API allows only the local Vite origins by default; for a deployed frontend, set `FRONTEND_ORIGINS` to the exact trusted origin or origins in `blockchain/.env` rather than enabling wildcard CORS.
 
 ## Run the Application
 
