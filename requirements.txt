@@ -1,0 +1,18 @@
+# Trustlance FastAPI backend and Polygon Amoy oracle
+fastapi
+uvicorn[standard]
+python-dotenv
+python-multipart
+requests
+web3
+
+# Text, image, and audio verification
+numpy
+scikit-learn
+nltk
+Pillow
+ImageHash
+librosa
+openai-whisper
+torch
+transformers
