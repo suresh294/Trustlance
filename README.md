@@ -2,6 +2,8 @@
 
 Trustlance is an AI-verified decentralized freelance marketplace built around Polygon Amoy escrow, IPFS evidence, an off-chain AI oracle, and on-chain reputation.
 
+> **Deployment and safety status:** The configured contracts target Polygon Amoy (chain ID `80002`), a test network. Treat this as a prototype and use test tokens only; do not send real funds or production credentials. A verified public web-app deployment URL has not been confirmed, so the run instructions below are for local development.
+
 ## Product Flow
 
 ```text
