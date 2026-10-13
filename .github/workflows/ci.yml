@@ -31,6 +31,8 @@ jobs:
         run: npm ci --prefix blockchain
 
       - name: Compile Solidity contracts
+        env:
+          RPC_URL: https://rpc-amoy.polygon.technology
         run: npm run compile --prefix blockchain
 
       - name: Install frontend dependencies
