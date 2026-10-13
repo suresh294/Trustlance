@@ -38,6 +38,26 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci --prefix frontend
 
+      - name: Report dependency audit findings
+        continue-on-error: true
+        run: |
+          npm audit --prefix blockchain --json > /tmp/blockchain-audit.json || true
+          node - <<'NODE'
+          const report = require('/tmp/blockchain-audit.json');
+          for (const [name, item] of Object.entries(report.vulnerabilities || {})) {
+            const via = item.via.map((entry) => typeof entry === 'string' ? entry : entry.title).join('; ');
+            console.log(`blockchain ${name}: ${item.severity}; fixAvailable=${JSON.stringify(item.fixAvailable)}; ${via}`);
+          }
+          NODE
+          npm audit --prefix frontend --json > /tmp/frontend-audit.json || true
+          node - <<'NODE'
+          const report = require('/tmp/frontend-audit.json');
+          for (const [name, item] of Object.entries(report.vulnerabilities || {})) {
+            const via = item.via.map((entry) => typeof entry === 'string' ? entry : entry.title).join('; ');
+            console.log(`frontend ${name}: ${item.severity}; fixAvailable=${JSON.stringify(item.fixAvailable)}; ${via}`);
+          }
+          NODE
+
       - name: Build frontend
         run: npm run build --prefix frontend
 
